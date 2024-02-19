@@ -1,9 +1,9 @@
 $(document).ready(function() {
-	var base_url = $("meta[name='base_url']").attr('content');
-	var currency = '₱';
-	var site_live = $("meta[name='site_live']").attr('content');
-	var csrfName = $("meta[name='csrfName']").attr('content');
-	var csrfHash = $("meta[name='csrfHash']").attr("content");
+	window.base_url = $("meta[name='base_url']").attr('content');
+	window.currency = '₱';
+	window.site_live = $("meta[name='site_live']").attr('content');
+	window.csrfName = $("meta[name='csrfName']").attr('content');
+	window.csrfHash = $("meta[name='csrfHash']").attr("content");
 	var api_key = $("meta[name='api_key']").attr('content');
 	var hide = $("meta[name='admin']").attr("content") == 1 ? true : false;
 
@@ -48,6 +48,7 @@ $(document).ready(function() {
 				this.deleteItem();
 				this.changeImage();
 				this.itemForm();
+				this.columnToggle();
 			},
 			itemForm: function() {
 				$("#item-form").submit(function(e) {
@@ -69,8 +70,7 @@ $(document).ready(function() {
 				data[csrfName] = csrfHash;
 				itemTable = $("#item_tbl").DataTable({
 					processing : true,
-					serverSide : true,
-
+					serverSide : true, 
 					lengthMenu : [[10, 25, 50, 0], [10, 25, 50, "Show All"]],
 					ajax : {
 						url : base_url + 'ItemController/dataTable',
@@ -79,7 +79,8 @@ $(document).ready(function() {
 					},
 					dom : "lfrtBp",
 					"targets": 'no-sort',
-					"bSort": false,
+					"bSort": false, 
+
 					columnDefs: [
 						{ 
 							targets: [3,6], 
@@ -169,6 +170,15 @@ $(document).ready(function() {
 
 					$(this).next("form").submit();
 				})
+			},
+			columnToggle: function() {
+				$("input[type='checkbox']").change(function(event) {
+					const isChecked = event.target.checked;
+					const key = event.target.name;
+					
+					const columnHeader = itemTable.column(key); 
+					columnHeader.visible(isChecked); 
+				});
 			}
 		}
 
@@ -1124,8 +1134,6 @@ $(document).ready(function() {
 	})
 
 	$("#short_stocks_table").DataTable();
-
-	
 })
 
 

@@ -382,5 +382,23 @@ legend {
     border-radius: 5px !important;
     min-width: 100px;
     line-height: 1.75em;
+} 
+
+.show-hide-column-wrapper { 
+    position: relative; 
 }
+
+.show-hide-overlay {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background-color: #fff;
+    right: 0;
+    top: 100px;
+    z-index: 100;
+    content: '/';
+    margin-right: 20px; 
+    border:solid;
+    border-radius: 5px;
+    padding:20px;
 }
