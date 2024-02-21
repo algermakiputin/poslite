@@ -249,19 +249,19 @@ class ItemController extends AppController {
 
          
 			$datasets[] = [
-				$this->disPlayItemImage($item->image),
-				$item->barcode,
-				$item->name,
-				$item->partNumber,
-				$item->oem,
-				$item->supplier,
-				$this->categories_model->getName($item->category_id),
-				'₱' . number_format($item->capital,2),
-				'₱' . number_format($itemPrice,2),
-				$stocksRemaining,
-				$item->reorderingLevel,
-				currency() . number_format($item->capital * $stocksRemaining,2), 
-				$actions
+				'image' => $this->disPlayItemImage($item->image),
+				'barcode' => $item->barcode,
+				'name' => $item->name,
+				'partNumber' => $item->partNumber,
+				'oem' => $item->oem,
+				'supplier' => $item->supplier,
+				'category' => $this->categories_model->getName($item->category_id),
+				'capital' => '₱' . number_format($item->capital,2),
+				'price' => '₱' . number_format($itemPrice,2),
+				'stocks' => $stocksRemaining,
+				'reorderingLevel' => $item->reorderingLevel,
+				'total' => currency() . number_format($item->capital * $stocksRemaining,2), 
+				'actions' => $actions
 			];
 		} 
 

@@ -391,14 +391,25 @@ legend {
 .show-hide-overlay {
     position: absolute;
     width: 400px;
-    height: 400px;
+    height: auto;
     background-color: #fff;
     right: 0;
-    top: 100px;
+    top: 0;
     z-index: 100;
     content: '/';
     margin-right: 20px; 
-    border:solid;
+    border-radius: 50px; 
+    box-shadow:  20px 20px 60px #bebebe,
+             -20px -20px 60px #ffffff;
     border-radius: 5px;
-    padding:20px;
+    padding: 10px 20px; 
+    display: none;
+    transition: display 3s; 
 }
+
+.column-toggle-btn {
+    cursor: pointer;
+    &:hover {
+        opacity: 0.5;
+    }
+} 

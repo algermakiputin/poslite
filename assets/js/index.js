@@ -40,6 +40,60 @@ $(document).ready(function() {
 
 	(function() {
 		var itemTable;
+		var columns = [
+			{
+				data:'image',
+				title: '',
+			},
+			{
+				data:'barcode',
+				title: 'Barcode',
+			},
+			{
+				data:'name',
+				title: 'Item Name',
+			},
+			{
+				data:'partNumber',
+				title: 'Part Number', 
+			},
+			{
+				data:'oem',
+				title: 'OEM',
+			},
+			{
+				data:'supplier',
+				title: 'Supplier',
+			},
+			{
+				data:'category',
+				title: 'Category',
+			},
+			{
+				data:'capital',
+				title: 'Capital',
+			},
+			{
+				data:'price',
+				title: 'Price',
+			},
+			{
+				data:'stocks',
+				title: 'Stocks',
+			},
+			{
+				data:'reorderingLevel',
+				title: 'Reordering Level',
+			},
+			{
+				data:'total',
+				title: 'Total',
+			},
+			{
+				data:'actions',
+				title: 'Actions',
+			},
+		]; 
 		var items = {		
 			init : function() {
 				this.dataTable();
@@ -49,6 +103,7 @@ $(document).ready(function() {
 				this.changeImage();
 				this.itemForm();
 				this.columnToggle();
+				this.loadColumnToggle();
 			},
 			itemForm: function() {
 				$("#item-form").submit(function(e) {
@@ -67,27 +122,18 @@ $(document).ready(function() {
 			},
 			dataTable : function() {
 				data = {};
-				data[csrfName] = csrfHash;
+				data[csrfName] = csrfHash; 
 				itemTable = $("#item_tbl").DataTable({
 					processing : true,
-					serverSide : true, 
+					serverSide : true,  
 					lengthMenu : [[10, 25, 50, 0], [10, 25, 50, "Show All"]],
 					ajax : {
 						url : base_url + 'ItemController/dataTable',
 						type : 'POST',
 						data : data
-					},
-					dom : "lfrtBp",
-					"targets": 'no-sort',
-					"bSort": false, 
-
-					columnDefs: [
-						{ 
-							targets: [3,6], 
-							visible: hide,
-							searchable: hide
-						},
-					],
+					}, 
+					dom : "lfrtBp",  
+					columns: columns,  
 					buttons: [
 						{
 							extend: 'copyHtml5',
@@ -95,8 +141,8 @@ $(document).ready(function() {
 							title : 'Inventory', 
 							className : "btn btn-default btn-sm",
 							exportOptions: {
-								columns: [ 1, 2, 3,4,5,6,7,8 ]
-							},
+								columns: ':visible:gt(0):not(:last-child)'
+							}
 						},
 						{
 							extend: 'excelHtml5',
@@ -104,8 +150,8 @@ $(document).ready(function() {
 							title : 'Inventory Report', 
 							className : "btn btn-default btn-sm",
 							exportOptions: {
-								columns: [ 1, 2, 3,4,5,6,7,8 ]
-							},
+								columns: ':visible:gt(0):not(:last-child)'
+							}
 						},
 						{
 							extend: 'pdfHtml5',
@@ -113,26 +159,23 @@ $(document).ready(function() {
 							title : 'Inventory', 
 							className : "btn btn-default btn-sm",
 							exportOptions: {
-								columns: [ 1, 2, 3,4,5,6,7,8 ]
-							},
+								columns: ':visible:gt(0):not(:last-child)'
+							}
 
 						},
 					],
-					initComplete : function(settings, json) {
-						  
+					initComplete : function(settings, json) { 
 						$("#total").text(json.total);
 						$.previewImage({
 						   'xOffset': 30,  // x-offset from cursor
 						   'yOffset': -270,  // y-offset from cursor
 						   'fadeIn': 1000, // delay in ms. to display the preview
-						   'css': {        // the following css will be used when rendering the preview image.
-					
+						   'css': {       
 						   'border': '2px solid black', 
 						   }
-						});
-					},
-					responsive: true,
-				})
+						}); 
+					} 
+				}) 
 			},
 			dataTableFilter : function() {
 				$(".filter-items").change(function() {
@@ -153,8 +196,7 @@ $(document).ready(function() {
 					$(".filter-items").each(function() {
 						$(this).val('');
 						itemTable.columns($(this).data('column')).search('');
-					})
-
+					}) 
 					itemTable.draw();
 				})
 			},
@@ -163,24 +205,50 @@ $(document).ready(function() {
 					var c = confirm('Delete Item?')
 					var id = $(this).data('id');
 					var link = $(this).data('link');
-					if (c == false) {
-
+					if (c == false) { 
 						return false;
-					}
-
+					} 
 					$(this).next("form").submit();
 				})
 			},
 			columnToggle: function() {
 				$("input[type='checkbox']").change(function(event) {
 					const isChecked = event.target.checked;
-					const key = event.target.name;
-					
+					const key = event.target.name; 
 					const columnHeader = itemTable.column(key); 
 					columnHeader.visible(isChecked); 
+					const index = parseInt(key) - 1; 
+					const columnToggles = getColumnToggles();
+					columnToggles[index] = isChecked; 
+					window.localStorage.setItem('itemsColumnsToggle', JSON.stringify(columnToggles));
 				});
+				$(".column-toggle-btn").click(function() { 
+					const overlay = $('.show-hide-overlay');
+					if (overlay.is(':visible')) {
+						return	overlay.hide();
+					} 
+					return overlay.show();
+				});  
+			},
+			loadColumnToggle: function() { 
+				const defaultToggle = [true, true, true, true, true, false, true, true, true, false, true];
+				if (!window.localStorage.getItem('itemsColumnsToggle')) {
+					window.localStorage.setItem('itemsColumnsToggle', JSON.stringify(defaultToggle));
+				} else {
+					const toggles = JSON.parse(window.localStorage.getItem('itemsColumnsToggle')); 
+					const exportColumns = [];
+					for (var i = 0; i < toggles.length; i++) {
+						const index = i + 1;
+						$(`input[name='${index}']`).attr('checked', toggles[i]);
+						if (!toggles[i]) { 
+							const column = itemTable.column(index)
+							column.visible(toggles[i]); 
+							exportColumns.push(index);
+						}
+					}; 
+				}  
 			}
-		}
+		}	
 
 		var sales = {
 			init : function() {
@@ -1150,4 +1218,8 @@ function readURL(input) {
 
 		reader.readAsDataURL(input.files[0]);
 	}
+}
+
+function getColumnToggles() {
+	return JSON.parse(window.localStorage.getItem('itemsColumnsToggle'));
 }
