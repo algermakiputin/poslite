@@ -225,10 +225,17 @@ $(document).ready(function() {
 				$(".column-toggle-btn").click(function() { 
 					const overlay = $('.show-hide-overlay');
 					if (overlay.is(':visible')) {
+						$(".overlay-body").hide();
 						return	overlay.hide();
 					} 
+					$(".overlay-body").show();
 					return overlay.show();
 				});  
+
+				$(".overlay-body").click(function() {
+					$(this).hide();
+					$('.show-hide-overlay').hide();
+				});
 			},
 			loadColumnToggle: function() { 
 				const defaultToggle = [true, true, true, true, true, false, true, true, true, false, true];

@@ -112,7 +112,7 @@
                                 <label><input name="11" checked type="checkbox">Total</label>
                             </div>
                         </div>
-                    </div>
+                    </div> 
                 </span>
             </div>
             <!-- /.panel-heading -->
@@ -125,3 +125,5 @@
         </div>
     </div>
 </div>  
+
+<div class="overlay-body"></div>

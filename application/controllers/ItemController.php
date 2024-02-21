@@ -325,13 +325,16 @@ class ItemController extends AppController {
 											->result());
 
 			$quantity = $this->db->where('item_id', $item->id)->get('ordering_level')->row()->quantity;
-
+			$itemPrice = '₱'. number_format($item->price,2);
 			return [ 
-				ucwords($item->name) . '<input type="hidden" name="item-id" value="'.$item->id.'"> ' . 
+				'name' => ucwords($item->name) . '<input type="hidden" name="item-id" value="'.$item->id.'"> <input type="hidden" name="itemName" value="'.$item->name.'">' . 
 				'<input type="hidden" name="capital" value="'.$item->capital.'">',
-				ucfirst($item->description), 
-				$quantity, 
-				'₱'. number_format($item->price,2) . "<input type='hidden' name='advance_pricing' value='$advance_price'>"
+				'description' => ucfirst($item->description), 
+				'quantity' => $quantity . '<input type="hidden" name="quantity_remaining" value="'.$quantity.'" />', 
+				'price' => $itemPrice . "<input type='hidden' name='advance_pricing' value='$advance_price'> <input type='hidden' name='normal_price' value='".$itemPrice."' />",
+				'oem' => $item->oem,
+				'barcode' => $item->barcode,
+				'partNumber' => $item->partNumber
 			];
 		}, $items);
 

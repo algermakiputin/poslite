@@ -10,44 +10,112 @@ $(document).ready(function() {
  	var data = {};
  	var item_table;
  	var orders_table;
-	data[csrfName] = csrfHash;
-
-	(function() {
-
-		var cart = {
-
+	data[csrfName] = csrfHash; 
+	(function() { 
+		var cart = {  
 			init: function() {
 				this.loadProducts();
 				this.selectProduct();
 				this.orders();
-			},
-
-			loadProducts: function() {
-
+			}, 
+			loadProducts: function() { 
 				item_table = $("#item-table").DataTable({
 					processing : true, 
-					serverSide : true,
-					 "bPaginate": true,
-					pagin:true,
+					serverSide : true, 
+					paging:true,
 					pagingType: "full",
+					columns: [
+						{
+							data: 'barcode',
+							title: 'Barcode', 
+							visibility: false,
+						},
+						{
+							data: 'name',
+							title: 'Item Name'
+						},
+						{
+							data: 'partNumber',
+							title: 'Part Number',
+							visiblity: false 
+						},
+						{
+							data: 'oem',
+							title: 'OEM', 
+							visiblity: false,
+						},
+						{
+							data: 'quantity',
+							title: 'Quantity'
+						},
+						{
+							data: 'price',
+							title: 'Price'
+						},
+					],
 					ajax : {
 						url : base_url + 'items/data',
 						data : data,
 						type : 'POST'
-					},
+					}, 
 				});
-			},
-			selectProduct: function() {
 
+				$(".column-toggle-btn").click(function() { 
+					const overlay = $('.show-hide-overlay');
+					if (overlay.is(':visible')) {
+						$(".overlay-body").hide();
+						return	overlay.hide();
+					} 
+					$(".overlay-body").show();
+					return overlay.show();
+				});  
+
+				$(".overlay-body").click(function() {
+					$(this).hide();
+					$('.show-hide-overlay').hide();
+				});
+
+				$("input[type='checkbox']").change(function(event) {
+					const isChecked = event.target.checked;
+					const key = event.target.name; 
+					const columnHeader = item_table.column(key); 
+					columnHeader.visible(isChecked); 
+					console.log(key);
+					const index = parseInt(key); 
+					const columnToggles = getColumnToggles();
+					columnToggles[index] = isChecked; 
+					console.log(columnToggles);
+					window.localStorage.setItem('posColumnsToggle', JSON.stringify(columnToggles));
+				});
+
+				const defaultToggle = [false, true, false, false, true, true];
+				if (!window.localStorage.getItem('posColumnsToggle')) {
+					window.localStorage.setItem('posColumnsToggle', JSON.stringify(defaultToggle));
+				} else {
+					const toggles = JSON.parse(window.localStorage.getItem('posColumnsToggle')); 
+				 
+					const exportColumns = [];
+					for (var i = 0; i < toggles.length; i++) {
+						const index = i
+						$(`input[name='${index}']`).attr('checked', toggles[i]);
+						if (!toggles[i]) { 
+							const column = item_table.column(index)
+							column.visible(toggles[i]); 
+							exportColumns.push(index);
+						}
+					}; 
+				}  
+			},
+			selectProduct: function() { 
 				$("#item-table").on('click', 'tbody tr', function(event) { 
 					var id = $(this).find('input[name="item-id"]').val();
-					var name = $(this).find('td').eq(0).text(); 
-					var price = $(this).find('td').eq(3).text();
+					var name = $(this).find('input[name="itemName"]').val(); 
+					var price = $(this).find('input[name="normal_price"]').val();
 					var description = $(this).find('td').eq(1).text();
 					var pricing = $(this).find('input[name="advance_pricing"]').val();
 					var capital = $(this).find('input[name="capital"]').val();
 					var item_unit = $(this).find('td').eq(3).text();
-					var stocks = $(this).find('td').eq(2).text();
+					var stocks = $(this).find('input[name="quantity_remaining"]').val();
 
 					if ( parseInt(stocks) <= 0) {
 
@@ -894,4 +962,8 @@ function number_format(number, decimals, dec_point, thousands_point) {
 function remove_comma(str) {
 
 	return str.replace(/,/g, '')
+}
+
+function getColumnToggles() {
+	return JSON.parse(window.localStorage.getItem('posColumnsToggle'));
 }

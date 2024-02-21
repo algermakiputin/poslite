@@ -49,29 +49,60 @@
 <div class="">
 	<div class="">
 		<div class=" header">
-			<div class="col-sm-7 box rightnone">
-
-				<h3>List of Items</h3>
-
+			<div class="col-sm-7 box rightnone"> 
+				<h3>List of Items</h3> 
 				<div class="content">
-					<label>Select Item</label>
+					<span class="show-hide-column-wrapper">
+						<a class="column-toggle-btn">Toggle Columns</a>
+						<div class="show-hide-overlay">
+							<div class="form-group">
+								<div class="checkbox">
+									<label><input name="0" checked type="checkbox">Barcode</label>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="checkbox">
+									<label><input name="1" disabled checked type="checkbox">Item Name</label>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="checkbox">
+									<label><input name="2" checked type="checkbox">Part Number</label>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="checkbox">
+									<label><input name="3" checked type="checkbox">OEM</label>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="checkbox">
+									<label><input name="4" disabled checked type="checkbox">Quantity</label>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="checkbox">
+									<label><input name="5" disabled checked type="checkbox">Price</label>
+								</div>
+							</div> 
+						</div> 
+					</span>
+				 
 					<table style="width: 100%" class="table table-bordered table-hover table-striped" id="item-table">
 						<thead>
-							<tr> 
+							<!-- <tr> 
 								<td >Item Name</td>
 								<td >Description</td> 
 								<td>Quantity</td> 
 								<td >Price</td>
-							</tr>
+							</tr> -->
 						</thead>
 						<tbody> 
 						</tbody>
 					</table>
-				</div>
-
+				</div> 
 			</div>
-			<div class="col-sm-5 box">
-
+			<div class="col-sm-5 box"> 
 				<h3 > Order Details
 					<!-- <span  class="">Grand Total: <span id="amount-total">00.00</span></span>
 
@@ -96,11 +127,9 @@
 							</tbody>
 						</table>
 					</div>
-				</div>
-
+				</div> 
 				<div class="col-md-12" style="border-bottom: solid 1px #ddd;padding: 5px 25px 15px 25px;"> 
-					<div style="">Grand Total:<span id="amount-total" class="pull-right">00.00</span></div>
-
+					<div style="">Grand Total:<span id="amount-total" class="pull-right">00.00</span></div> 
 				</div>
 				<div class="col-md-12" style="padding: 15px 25px;">
 					<form id="process-form">
@@ -116,13 +145,12 @@
 							<input type="submit" class="btn btn-primary btn-block btn-lg" name="" value="Process" id="btn" >
 						</div>
 					</form>
-				</div>
-
-
+				</div> 
 			</div>
 		</div>
 	</div>
 	<div class="clearfix"></div>
+	<div class="overlay-body"></div>
 </div>
 <div class="modal " id="discount-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-sm" role="document">
@@ -435,6 +463,7 @@
 		</div>
 	</div>
 </div>
+
 <script type="text/javascript">
 	var csrfName = '<?php echo $this->security->get_csrf_token_name(); ?>';
 	var csrfHash = '<?php echo $this->security->get_csrf_hash(); ?>';
