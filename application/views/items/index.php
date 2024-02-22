@@ -69,47 +69,52 @@
                         </div>
                         <div class="form-group">
                             <div class="checkbox">
-                                <label><input name="3" checked type="checkbox">Part Number</label>
+                                <label><input name="3" checked type="checkbox">Description</label>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="checkbox">
-                                <label><input name="4" checked type="checkbox">OEM</label>
+                                <label><input name="4" checked type="checkbox">Part Number</label>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="checkbox">
-                                <label><input name="5" checked type="checkbox">Supplier</label>
+                                <label><input name="5" checked type="checkbox">OEM</label>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="checkbox">
-                                <label><input name="6" checked type="checkbox">Category</label>
+                                <label><input name="6" checked type="checkbox">Supplier</label>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="checkbox">
-                                <label><input name="7" checked type="checkbox">Capital</label>
+                                <label><input name="7" checked type="checkbox">Category</label>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="checkbox">
-                                <label><input name="8" checked type="checkbox">Price</label>
+                                <label><input name="8" checked type="checkbox">Capital</label>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="checkbox">
-                                <label><input name="9" checked type="checkbox">Stocks</label>
+                                <label><input name="9" checked type="checkbox">Price</label>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="checkbox">
-                                <label><input name="10" checked type="checkbox">Reordering Level</label>
+                                <label><input name="10" checked type="checkbox">Stocks</label>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="checkbox">
-                                <label><input name="11" checked type="checkbox">Total</label>
+                                <label><input name="11" checked type="checkbox">Reordering Level</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label><input name="12" checked type="checkbox">Total</label>
                             </div>
                         </div>
                     </div> 

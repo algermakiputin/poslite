@@ -425,3 +425,8 @@ legend {
     z-index: 1000;
     display: none;
 }
+
+#item_tbl_wrapper {
+    width: 100%;
+    overflow: auto;
+}

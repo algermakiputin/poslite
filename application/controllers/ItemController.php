@@ -253,6 +253,7 @@ class ItemController extends AppController {
 				'barcode' => $item->barcode,
 				'name' => $item->name,
 				'partNumber' => $item->partNumber,
+				'description' => $item->description,
 				'oem' => $item->oem,
 				'supplier' => $item->supplier,
 				'category' => $this->categories_model->getName($item->category_id),
@@ -334,7 +335,8 @@ class ItemController extends AppController {
 				'price' => $itemPrice . "<input type='hidden' name='advance_pricing' value='$advance_price'> <input type='hidden' name='normal_price' value='".$itemPrice."' />",
 				'oem' => $item->oem,
 				'barcode' => $item->barcode,
-				'partNumber' => $item->partNumber
+				'partNumber' => $item->partNumber,
+				'description' => $item->description
 			];
 		}, $items);
 

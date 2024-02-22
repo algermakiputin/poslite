@@ -54,6 +54,10 @@ $(document).ready(function() {
 				title: 'Item Name',
 			},
 			{
+				data: 'description',
+				title: 'Description'
+			},
+			{
 				data:'partNumber',
 				title: 'Part Number', 
 			},
@@ -238,7 +242,7 @@ $(document).ready(function() {
 				});
 			},
 			loadColumnToggle: function() { 
-				const defaultToggle = [true, true, true, true, true, false, true, true, true, false, true];
+				const defaultToggle = [true, true, true, true, true, false, false, false, true, true, false, true];
 				if (!window.localStorage.getItem('itemsColumnsToggle')) {
 					window.localStorage.setItem('itemsColumnsToggle', JSON.stringify(defaultToggle));
 				} else {
